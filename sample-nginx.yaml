@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yamamoto
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-sample-nginx
+  namespace: yamamoto
+  labels:
+    app: sample-nginx
+spec:
+  selector:
+    app: sample-nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: yamamoto
+  labels:
+    app: sample-nginx
+spec:
+  selector:
+    matchLabels:
+      app: sample-nginx
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: sample-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19.2
+        ports:
+        - containerPort: 80
