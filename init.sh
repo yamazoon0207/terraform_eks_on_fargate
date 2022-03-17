@@ -1,4 +1,5 @@
 #!/bin/bash -
+terraform init
 echo terraform fmt -recursive
 terraform fmt -recursive
 echo error-level:$?
